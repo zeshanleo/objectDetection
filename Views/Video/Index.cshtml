@@ -1,0 +1,98 @@
+﻿@using VideoDetectionPOC.ViewModel
+@model List<VideoItemViewModel>
+
+@{
+    ViewData["Title"] = "Upload Video";
+}
+
+<h2>Upload Video</h2>
+
+@using (Html.BeginForm("UploadVideo", "Video", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" class="form-control mb-3" id="videoFile" name="videoFile" accept=".mp4" required />
+    <button type="submit" class="btn btn-primary">Upload</button>
+}
+
+<hr />
+
+<h3>Uploaded Videos</h3>
+
+@if (!Model.Any())
+{
+    <p>No videos uploaded yet.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Preview</th>
+                <th>Status</th>
+                <th>Uploaded</th>
+                <th>Progress</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var video in Model)
+            {
+                <tr id="row-@video.FileName">
+                    <td>
+                        <!-- PLAY VIDEO INLINE -->
+                        <video width="200" controls>
+                            <source src="~/videos/@video.FileName" type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </td>
+
+                    <td id="status-@video.FileName">
+                        <span>
+                            @video.Status
+                        </span>
+                    </td>
+
+                    <td>@video.UploadedAt</td>
+
+                    @if (video.Status == "Completed")
+                    {
+                        <td>
+                            <div class="progress">
+                                <div id="progress-@video.FileName" class="progress-bar" role="progressbar" style="width: 100%">
+                                    100%
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <a id="viewFrames-@video.FileName" asp-action="Details" asp-route-fileName="@video.FileName" class="btn btn-sm btn-info">
+                                View Frames
+                            </a>
+                            <a id="deleteFrames-@video.FileName" asp-action="Delete" asp-route-fileName="@video.FileName" class="btn btn-sm btn-danger">
+                                Delete
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="progress">
+                                <div id="progress-@video.FileName" class="progress-bar" role="progressbar" style="width: 0%">
+                                    0%
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <a id="viewFrames-@video.FileName" asp-action="Details" asp-route-fileName="@video.FileName" class="btn btn-sm btn-info disabled">
+                                View Frames
+                            </a>
+                            <a id="deleteFrames-@video.FileName" asp-action="Delete" asp-route-fileName="@video.FileName" class="btn btn-sm btn-danger">
+                                Delete
+                            </a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
