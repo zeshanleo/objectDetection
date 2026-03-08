@@ -25,7 +25,7 @@ namespace VideoDetectionPOC.DataAccess
             return detections.Count > 0;
         }
 
-        public void AddVideo(string videoFile)
+        public void AddVideo(string videoFile, TimeSpan timeSpan)
         {
             var videoFileName = Path.GetFileName(videoFile);
             var video = _db.Videos.Where(v => v.FileName.Equals(videoFileName)).FirstOrDefault();
@@ -35,7 +35,8 @@ namespace VideoDetectionPOC.DataAccess
                 {
                     FileName = videoFileName,
                     Processed = false,
-                    UploadedAt = File.GetCreationTime(videoFile)
+                    UploadedAt = File.GetCreationTime(videoFile),
+                    DurationSeconds = timeSpan.Seconds
                 };
                 _db.Videos.Add(video);
                 _db.SaveChanges();
@@ -77,7 +78,8 @@ namespace VideoDetectionPOC.DataAccess
                     VideoId = video.Id,
                     FrameIndex = int.Parse(Path.GetFileNameWithoutExtension(frameFile).Split('_').Last()),
                     FrameName = frameFileName,
-                    FramePath = frameFile
+                    FramePath = frameFile,
+                    TimestampMs = GetFrameTimeInSeconds(frameFileName)
                 };
                 _db.Frames.Add(frame);
                 _db.SaveChanges();
@@ -132,6 +134,17 @@ namespace VideoDetectionPOC.DataAccess
             // Step 5: Delete the video itself
             _db.Videos.Remove(video);
             _db.SaveChanges();
+        }
+
+        public static int? GetFrameTimeInSeconds(string frameFile)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(frameFile);
+
+            string framePart = fileName.Split('_').Last();
+
+            int? frameNumber = int.Parse(framePart);
+
+            return frameNumber;
         }
     }
 }

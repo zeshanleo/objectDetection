@@ -48,9 +48,9 @@ namespace VideoDetectionPOC.Services
                     await _hub.Clients.All.SendAsync("ReceiveMessage", $"Detections already exist for video: {Path.GetFileName(videoPath)}. Skipping processing.", cancellationToken: stoppingToken);
                     return;
                 }
-
+                var timeSpan = FrameExtractor.GetVideoDuration(videoPath).Result;
                 // Add video entry to database
-                _detectionRepository.AddVideo(videoPath);
+                _detectionRepository.AddVideo(videoPath, timeSpan);
 
                 var frames = FrameExtractor.ExtractFrames(videoPath, _framesPath, 1);
                 await _hub.Clients.All.SendAsync("ReceiveMessage", $"File: {Path.GetFileName(videoPath)} converted into {frames.Result.Length} frames.", cancellationToken: stoppingToken);

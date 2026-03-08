@@ -25,5 +25,12 @@ namespace VideoDetectionPOC.Services
                                       .ToArray();
             return frameFiles;
         }
+        public static async Task<TimeSpan> GetVideoDuration(string videoPath)
+        {
+            FFmpeg.SetExecutablesPath(FFMPegPath);
+            var mediaInfo = await FFmpeg.GetMediaInfo(videoPath);
+
+            return mediaInfo.Duration;
+        }
     }
 }
