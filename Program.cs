@@ -28,6 +28,7 @@ builder.Services.AddSingleton<OnnxYoloDetector>(provider =>
 });
 builder.Services.AddHostedService<VideoProcessor>();
 builder.Services.AddScoped<DetectionRepository>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,7 +48,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.MapHub<DetectionHub>("/detectionHub");

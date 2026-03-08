@@ -1,0 +1,96 @@
+﻿@using VideoDetectionPOC.ViewModel
+@model TimelineViewModel
+
+<h2 class="mb-4">📈 Detection Timeline</h2>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <h5>@Model.VideoName</h5>
+        <p class="mb-1">
+            Upload Date: @Model.UploadDate.ToShortDateString()
+        </p>
+        <p class="mb-0">
+            Duration: @Model.DurationSeconds seconds
+        </p>
+    </div>
+</div>
+
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <canvas id="timelineChart" height="100"></canvas>
+    </div>
+</div>
+
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <h5>Per-Second Detection Data</h5>
+
+        <table class="table table-bordered table-striped table-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Second</th>
+                    <th>Detection Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Timeline)
+                {
+                    <tr>
+                        <td>@item.Second</td>
+                        <td>@item.DetectionCount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var ctx = document.getElementById('timelineChart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
+                    @string.Join(",", Model.Timeline.Select(t => t.Second))
+                ],
+                datasets: [{
+                    label: 'Detections Per Second',
+                    data: [
+                        @string.Join(",", Model.Timeline.Select(t => t.DetectionCount))
+                    ],
+                    fill: false,
+                    tension: 0.1,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time (Seconds)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Detection Count'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
