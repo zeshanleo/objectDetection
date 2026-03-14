@@ -1,31 +1,37 @@
-﻿@using VideoDetectionPOC.ViewModel
-@model AdvancedSearchViewModel
+﻿<div class="advanced-search-wrapper">
 
-<div class="advanced-search-wrapper">
+    <div class="search-bar" id="searchBar">
 
-    <div class="search-container">
+        <span class="search-icon">🔍</span>
 
-        <input type="text" id="searchInput"
-               placeholder="Search or add filters..." />
+        <div id="chipContainer" class="chip-container"></div>
 
-        <button type="button" id="filterToggle">⚙</button>
+        <input type="text"
+               id="searchInput"
+               class="search-input"
+               placeholder="Search frames, objects, events or add filters..." />
+
+        <button id="filterToggle" class="filter-button">
+            +
+        </button>
 
     </div>
-
-    <!-- Filter dropdown -->
+    <div id="suggestionBox" class="suggestion-box"></div>
+    <!-- Dropdown -->
     <div id="filterDropdown" class="filter-dropdown">
-        <div class="filter-item" onclick="selectFilter('cameras')">cameras</div>
-        <div class="filter-item" onclick="selectFilter('labels')">labels</div>
-        <div class="filter-item" onclick="selectFilter('zones')">zones</div>
-        <div class="filter-item" onclick="selectFilter('sub_labels')">sub_labels</div>
-        <div class="filter-item" onclick="selectFilter('search_type')">search_type</div>
-        <div class="filter-item" onclick="selectFilter('time_range')">time_range</div>
-        <div class="filter-item" onclick="selectFilter('before')">before</div>
-        <div class="filter-item" onclick="selectFilter('after')">after</div>
-    </div>
 
-    <!-- Selected filters -->
-    <div id="selectedFilters" class="selected-filters"></div>
+        <div class="dropdown-title">Add Filter</div>
+
+        <div class="filter-item" onclick="selectFilter('camera')">📷 Camera</div>
+        <div class="filter-item" onclick="selectFilter('label')">🏷 Label</div>
+        <div class="filter-item" onclick="selectFilter('zone')">📍 Zone</div>
+        <div class="filter-item" onclick="selectFilter('sub_label')">🔖 Sub Label</div>
+        <div class="filter-item" onclick="selectFilter('search_type')">⚡ Search Type</div>
+        <div class="filter-item" onclick="selectFilter('before')">⏮ Before</div>
+        <div class="filter-item" onclick="selectFilter('after')">⏭ After</div>
+        <div class="filter-item" onclick="selectFilter('time_range')">⏱ Time Range</div>
+
+    </div>
 
 </div>
 

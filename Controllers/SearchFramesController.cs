@@ -21,5 +21,18 @@ namespace VideoDetectionPOC.Controllers
             var vm = new AdvancedSearchViewModel();
             return View(vm);
         }
+
+        [HttpGet]
+        public IActionResult Suggest(string q)
+        {
+            var labels = _context.ObjectTypes
+                .Where(o => o.Name.Contains(q))
+                .Select(o => o.Name)
+                .Distinct()
+                .Take(10)
+                .ToList();
+
+            return Json(labels);
+        }
     }
 }

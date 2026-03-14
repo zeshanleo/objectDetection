@@ -31,77 +31,148 @@ body {
 }
 
 .advanced-search-wrapper {
+    width: 700px;
+    margin: 40px auto;
     position: relative;
-    max-width: 600px;
-    margin: auto;
+    font-family: system-ui;
 }
 
-.search-container {
+.search-bar {
     display: flex;
-    margin-bottom: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+    border: 1px solid #d0d7de;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: border 0.2s;
 }
 
-#searchInput {
-    flex: 1;
-    padding: 10px;
+.search-bar:focus-within {
+    border: 1px solid #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+.search-icon {
     font-size: 14px;
-    border-radius: 6px 0 0 6px;
-    border: 1px solid #ccc;
+    opacity: .6;
 }
 
-#filterToggle {
-    padding: 0 12px;
-    border: 1px solid #ccc;
-    background: #f7f7f7;
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    min-width: 180px;
+    font-size: 14px;
+    padding: 6px;
+}
+
+.filter-button {
+    border: none;
+    background: #f3f4f6;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
-    border-radius: 0 6px 6px 0;
+    font-size: 18px;
 }
 
+    .filter-button:hover {
+        background: #e5e7eb;
+    }
+
+.chip-container {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 14px;
+    padding: 6px 10px;
+    font-size: 12px;
+    max-width: 260px;
+}
+
+.filter-chip input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 12px;
+    min-width: 80px;
+    max-width: 200px;
+    width: auto;
+}
+
+.filter-chip .remove {
+    cursor: pointer;
+    font-weight: bold;
+    opacity: .6;
+}
+
+.filter-chip .remove:hover {
+    opacity: 1;
+}
+
+/* Dropdown */
 .filter-dropdown {
     position: absolute;
-    top: 40px;
-    left: 0;
+    top: 50px;
     width: 100%;
     background: white;
-    border: 1px solid #ccc;
-    max-height: 180px;
-    overflow-y: auto;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     display: none;
     z-index: 1000;
 }
 
-.filter-item {
+.dropdown-title {
+    font-size: 11px;
     padding: 8px 12px;
+    color: #6b7280;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-item {
+    padding: 10px 12px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-    .filter-item:hover {
-        background: #f2f2f2;
-    }
-
-.selected-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+.filter-item:hover {
+    background: #f3f4f6;
 }
 
-.filter-chip {
-    background: #e9ecef;
-    padding: 4px 8px;
-    border-radius: 16px;
-    font-size: 12px;
+.suggestion-box {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    background: white;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    display: none;
+    z-index: 1000;
 }
 
-.filter-chip span {
-    margin-left: 4px;
+.suggestion-item {
+    padding: 10px 12px;
     cursor: pointer;
+    font-size: 14px;
 }
 
-.chip-input {
-    border: none;
-    background: transparent;
-    outline: none;
-    width: 80px;
-    font-size: 12px;
-    margin-left: 2px;
+.suggestion-item:hover {
+    background: #f3f4f6;
+}
+
+.suggestion-item.active {
+    background: #e5e7eb;
 }
