@@ -1,36 +1,13 @@
-﻿<div class="advanced-search-wrapper">
+﻿<div class="explore-page">
 
-    <div class="search-bar" id="searchBar">
-
-        <span class="search-icon">🔍</span>
-
-        <div id="chipContainer" class="chip-container"></div>
-
-        <input type="text"
-               id="searchInput"
-               class="search-input"
-               placeholder="Search frames, objects, events or add filters..." />
-
-        <button id="filterToggle" class="filter-button">
-            +
-        </button>
-
+    <div class="search-container">
+        @Html.Partial("_advancedSearch")
     </div>
-    <div id="suggestionBox" class="suggestion-box"></div>
-    <!-- Dropdown -->
-    <div id="filterDropdown" class="filter-dropdown">
 
-        <div class="dropdown-title">Add Filter</div>
+    <div id="resultsContainer" class="results-grid"></div>
 
-        <div class="filter-item" onclick="selectFilter('camera')">📷 Camera</div>
-        <div class="filter-item" onclick="selectFilter('label')">🏷 Label</div>
-        <div class="filter-item" onclick="selectFilter('zone')">📍 Zone</div>
-        <div class="filter-item" onclick="selectFilter('sub_label')">🔖 Sub Label</div>
-        <div class="filter-item" onclick="selectFilter('search_type')">⚡ Search Type</div>
-        <div class="filter-item" onclick="selectFilter('before')">⏮ Before</div>
-        <div class="filter-item" onclick="selectFilter('after')">⏭ After</div>
-        <div class="filter-item" onclick="selectFilter('time_range')">⏱ Time Range</div>
-
+    <div id="loadingIndicator" class="loading">
+        Loading more frames...
     </div>
 
 </div>

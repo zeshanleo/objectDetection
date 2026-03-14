@@ -3,6 +3,7 @@ const toggle = document.getElementById("filterToggle");
 const chipContainer = document.getElementById("chipContainer");
 const searchInput = document.getElementById("searchInput");
 const suggestionBox = document.getElementById("suggestionBox");
+const validFilters = ["Label", "Camera", "Range"];
 let selectedSuggestionIndex = -1;
 let currentSuggestions = [];
 let activeInput = null;
@@ -21,10 +22,10 @@ function selectFilter(name) {
     label.textContent = name + ":";
 
     const input = document.createElement("input");
-    if (name === "label") {
+    if (name === "Label") {
         input.placeholder = "object type";
     }
-    else if (name === "time_range") {
+    else if (name === "Range") {
 
         input.placeholder = "Select range";
 
@@ -52,7 +53,7 @@ function selectFilter(name) {
     dropdown.style.display = "none";
 
     input.focus();
-    if (name === "label")
+    if (name === "Label")
         attachSuggestionToInput(input);
 }
 
@@ -169,7 +170,7 @@ function selectSuggestion(index) {
 
     if (activeInput === searchInput) {
 
-        addFilterChip("label", value);
+        addFilterChip("Label", value);
         searchInput.value = "";
     }
     else {

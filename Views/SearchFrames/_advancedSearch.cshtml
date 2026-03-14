@@ -1,0 +1,31 @@
+﻿<div class="advanced-search-wrapper">
+
+    <div class="search-bar" id="searchBar">
+
+        <span class="search-icon">🔍</span>
+
+        <div id="chipContainer" class="chip-container"></div>
+
+        <input type="text"
+               id="searchInput"
+               class="search-input"
+               placeholder="Search frames, objects, events or add filters..." />
+
+        <button id="filterToggle" class="filter-button">
+            +
+        </button>
+
+    </div>
+    <div id="suggestionBox" class="suggestion-box"></div>
+    <!-- Dropdown -->
+    <div id="filterDropdown" class="filter-dropdown">
+
+        <div class="dropdown-title">Add Filter</div>
+
+        <div class="filter-item" onclick="selectFilter('Camera')">📷 Camera</div>
+        <div class="filter-item" onclick="selectFilter('Label')">🏷 Label</div>
+        <div class="filter-item" onclick="selectFilter('Range')">⏱ Date Range</div>
+
+    </div>
+
+</div>
