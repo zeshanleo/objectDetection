@@ -29,3 +29,79 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.advanced-search-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 6px;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px 0 0 6px;
+    border: 1px solid #ccc;
+}
+
+#filterToggle {
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    cursor: pointer;
+    border-radius: 0 6px 6px 0;
+}
+
+.filter-dropdown {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 180px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+}
+
+.filter-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+    .filter-item:hover {
+        background: #f2f2f2;
+    }
+
+.selected-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.filter-chip {
+    background: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 12px;
+}
+
+.filter-chip span {
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.chip-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 80px;
+    font-size: 12px;
+    margin-left: 2px;
+}

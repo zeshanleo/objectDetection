@@ -1,0 +1,34 @@
+﻿@using VideoDetectionPOC.ViewModel
+@model AdvancedSearchViewModel
+
+<div class="advanced-search-wrapper">
+
+    <div class="search-container">
+
+        <input type="text" id="searchInput"
+               placeholder="Search or add filters..." />
+
+        <button type="button" id="filterToggle">⚙</button>
+
+    </div>
+
+    <!-- Filter dropdown -->
+    <div id="filterDropdown" class="filter-dropdown">
+        <div class="filter-item" onclick="selectFilter('cameras')">cameras</div>
+        <div class="filter-item" onclick="selectFilter('labels')">labels</div>
+        <div class="filter-item" onclick="selectFilter('zones')">zones</div>
+        <div class="filter-item" onclick="selectFilter('sub_labels')">sub_labels</div>
+        <div class="filter-item" onclick="selectFilter('search_type')">search_type</div>
+        <div class="filter-item" onclick="selectFilter('time_range')">time_range</div>
+        <div class="filter-item" onclick="selectFilter('before')">before</div>
+        <div class="filter-item" onclick="selectFilter('after')">after</div>
+    </div>
+
+    <!-- Selected filters -->
+    <div id="selectedFilters" class="selected-filters"></div>
+
+</div>
+
+@section Scripts {
+    <script src="~/Js/AdvancedSearch.js"></script>
+}
