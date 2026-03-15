@@ -7,9 +7,9 @@ namespace VideoDetectionPOC.Controllers
 {
     public class SearchFramesController : Controller
     {
-        private readonly ISearchService _searchService;
+        private readonly IAdvancedSearchService _searchService;
         private readonly ApplicationDBContext _context;
-        public SearchFramesController(ApplicationDBContext context, ISearchService searchService)
+        public SearchFramesController(ApplicationDBContext context, IAdvancedSearchService searchService)
         {
             _context = context;
             _searchService = searchService;
@@ -33,6 +33,14 @@ namespace VideoDetectionPOC.Controllers
                 .ToList();
 
             return Json(labels);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Frames([FromBody] AdvancedSearchViewModel request)
+        {
+            var frames = await _searchService.SearchFrames(request);
+
+            return Ok(frames);
         }
     }
 }

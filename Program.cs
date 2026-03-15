@@ -29,6 +29,7 @@ builder.Services.AddSingleton<OnnxYoloDetector>(provider =>
 builder.Services.AddHostedService<VideoProcessor>();
 builder.Services.AddScoped<DetectionRepository>();
 builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<IAdvancedSearchService, AdvancedSearchService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

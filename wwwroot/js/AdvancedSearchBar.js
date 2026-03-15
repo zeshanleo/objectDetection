@@ -114,7 +114,7 @@ document.addEventListener("keydown", function (e) {
         if (selectedSuggestionIndex >= 0) {
             selectSuggestion(selectedSuggestionIndex);
         }
-
+        searchFrames();
     }
 
 });
