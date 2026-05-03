@@ -6,6 +6,10 @@ let reachedEnd = false;
 
 let observer = null;
 
+let allFrames = [];
+
+let currentIndex = -1;
+
 document.addEventListener("DOMContentLoaded", function () {
     initilizeInfiniteScroll();
 });
@@ -124,7 +128,10 @@ function renderFrames(frames) {
 
     const container = document.getElementById("resultsContainer");
 
-    frames.forEach(f => {
+    frames.forEach((f, index) => {
+
+        allFrames.push(f);
+        const globalIndex = allFrames.length - 1;
 
         const card = document.createElement("div");
 
@@ -142,6 +149,70 @@ function renderFrames(frames) {
 
         `;
 
+        card.onclick = () => openDetailPanel(globalIndex);
+
         container.appendChild(card);
     });
+}
+
+function openDetailPanel(index) {
+    currentIndex = index;
+    const frame = allFrames[index];
+    const panel = document.getElementById("detailPanel");
+    panel.classList.remove("hidden");
+    
+    //const backdrop = document.getElementById("panelBackdrop");
+    //backdrop.classList.remove("hidden");
+
+    document.getElementById("detailImage").src = `/FramesOutput/${frame.framePath}`;
+
+    document.getElementById("dLabel").innerText = frame.label || "-";
+    document.getElementById("dConfidence").innerText = (frame.confidence * 100).toFixed(1) + "%";
+    document.getElementById("dTime").innerText = new Date(frame.detectionTime).toLocaleString();
+    document.getElementById("dVideo").innerText = frame.VideoFile || "-";
+
+    const video = document.getElementById("videoPlayer");
+
+    if (video.src.indexOf(frame.videoFile) === -1) {
+        video.src = `/videos/${frame.videoFile}`;
+    }
+
+    video.currentTime = 0;
+
+    updateNavButtons();
+    highlightActiveCard(index);
+}
+
+function updateNavButtons() {
+
+    document.getElementById("prevBtn").disabled = currentIndex === 0;
+
+    document.getElementById("nextBtn").disabled =
+        currentIndex === allFrames.length - 1;
+}
+
+function nextFrame() {
+    if (currentIndex < allFrames.length - 1) {
+        openDetailPanel(currentIndex + 1);
+    }
+}
+
+function prevFrame() {
+    if (currentIndex > 0) {
+        openDetailPanel(currentIndex - 1);
+    }
+}
+
+function highlightActiveCard(index) {
+
+    document.querySelectorAll(".frame-card")
+        .forEach(c => c.classList.remove("active"));
+
+    document.querySelectorAll(".frame-card")[index]
+        ?.classList.add("active");
+}
+
+function closePanel() {
+    document.getElementById("detailPanel").classList.add("hidden");
+    //document.getElementById("panelBackdrop").classList.add("hidden");
 }

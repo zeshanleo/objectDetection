@@ -12,6 +12,35 @@
 
 </div>
 
+@* <div id="panelBackdrop" class="panel-backdrop hidden" onclick="closePanel()"></div>
+ *@
+<div id="detailPanel" class="detail-panel hidden">
+    <div class="panel-header">
+        <div class="panel-title"> Frame Details</div>
+        <button onclick="closePanel()">X</button>    
+    </div>
+
+    <div class="panel-body">
+        <img id="detailImage" class="detail-image"/>
+
+        <video id="videoPlayer" class="video-player" controls>
+        </video>
+
+        <div class="details">
+            <div><strong>Label:</strong> <span id="dLabel"></span></div>
+            <div><strong>Confidence:</strong> <span id="dConfidence"></span></div>
+            <div><strong>Time:</strong> <span id="dTime"></span></div>
+            <div><strong>Video:</strong> <span id="dVideo"></span></div>
+        </div>
+    </div>
+
+    <div class="panel-footer">
+        <button id="prevBtn" onclick="prevFrame()">⬅ Prev</button>
+        <button id="nextBtn" onclick="nextFrame()">Next ➡</button>
+    </div>
+
+</div>
+
 @section Scripts {
     <script src="~/Js/AdvancedSearchBar.js"></script>
     <script src="~/js/AdvancedSearchResults.js"></script>
