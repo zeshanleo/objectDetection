@@ -80,10 +80,11 @@ searchInput.addEventListener("input", async function () {
 document.addEventListener("keydown", function (e) {
 
     const items = suggestionBox.querySelectorAll(".suggestion-item");
-
-    if (!items.length) return;
+    const hasSugegestions = items.length > 0;
 
     if (e.key === "ArrowDown") {
+
+        if (!hasSugegestions) return;
 
         e.preventDefault();
 
@@ -97,6 +98,8 @@ document.addEventListener("keydown", function (e) {
     }
 
     if (e.key === "ArrowUp") {
+
+        if (!hasSugegestions) return;
 
         e.preventDefault();
 
@@ -114,7 +117,7 @@ document.addEventListener("keydown", function (e) {
         if (selectedSuggestionIndex >= 0) {
             selectSuggestion(selectedSuggestionIndex);
         }
-        searchFrames();
+        searchFrames(true);
     }
 
 });
@@ -134,7 +137,7 @@ function renderSuggestions(items) {
         return;
     }
 
-    items.forEach(item => {
+    items.forEach((item, index) => {
 
         const div = document.createElement("div");
         div.className = "suggestion-item";
@@ -142,11 +145,6 @@ function renderSuggestions(items) {
 
         div.onclick = () => {
             selectSuggestion(index);
-            //searchInput.value = item;
-            //suggestionBox.style.display = "none";
-
-            //runSearch();
-
         };
 
         suggestionBox.appendChild(div);
@@ -182,7 +180,7 @@ function selectSuggestion(index) {
     currentSuggestions = [];
     selectedSuggestionIndex = -1;
 
-    //runSearch();
+    searchFrames();
 }
 
 function attachSuggestionToInput(input) {

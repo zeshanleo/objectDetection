@@ -21,8 +21,8 @@ namespace VideoDetectionPOC.Models
         public int ObjectTypeId { get; set; }
         public ObjectType? ObjectType { get; set; }
 
-        public DateTimeOffset StartTime { get; set; }
-        public DateTimeOffset EndTime { get; set; }
+        public DateTimeOffset StartTime { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset EndTime { get; set; } = DateTimeOffset.UtcNow;
         public float Confidence { get; set; }
 
         // Store boxes as JSON string, EF maps to jsonb on PostgreSQL if configured

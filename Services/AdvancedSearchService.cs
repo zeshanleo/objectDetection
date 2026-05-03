@@ -48,39 +48,20 @@ namespace VideoDetectionPOC.Services
                             query = query.Where(x => x.Detection.Label == filter.Value);
                             break;
 
-                        //case "object":
+                        case "range":
 
-                        //    query = query.Where(x => x.ObjectType.Name == filter.Value);
-                        //    break;
+                            if (filter.Operator.Equals("eq", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                var parts = filter.Value.Split("to",StringSplitOptions.None);
 
-                        //case "video":
-
-                        //    query = query.Where(x => x.Video.FileName.Contains(filter.Value));
-                        //    break;
-
-                        //case "device":
-
-                        //    query = query.Where(x => x.Video.DeviceId == filter.Value);
-                        //    break;
-
-                        //case "confidence":
-
-                        //    if (float.TryParse(filter.Value, out float conf))
-                        //        query = query.Where(x => x.Detection.Confidence >= conf);
-
-                        //    break;
-
-                        //case "timestamp":
-
-                        //    var date = DateTimeOffset.Parse(filter.Value);
-
-                        //    if (filter.Operator == "gte")
-                        //        query = query.Where(x => x.Detection.StartTime >= date);
-
-                        //    if (filter.Operator == "lte")
-                        //        query = query.Where(x => x.Detection.StartTime <= date);
-
-                        //    break;
+                                if (parts.Length == 2 &&
+                                    DateTimeOffset.TryParse(parts[0].Trim(), out var start) &&
+                                    DateTimeOffset.TryParse(parts[1].Trim(), out var end))
+                                {
+                                    query = query.Where(x => x.Detection.StartTime >= start && x.Detection.StartTime <= end);
+                                }
+                            }
+                            break;
                     }
                 }
             }
@@ -111,7 +92,7 @@ namespace VideoDetectionPOC.Services
                     VideoId = x.Video.Id,
                     VideoFile = x.Video.FileName,
                     ObjectType = x.ObjectType.Name,
-                    Label = x.Detection.Label,
+                    Label = x.Detection.Label ?? String.Empty,
                     Confidence = x.Detection.Confidence,
                     DetectionTime = x.Detection.StartTime,
                     X1 = x.Detection.X1,

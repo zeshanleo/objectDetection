@@ -27,7 +27,7 @@ function initilizeInfiniteScroll() {
     observer.observe(sentinel);
 }
 
-async function searchFrames() {
+async function searchFrames(reset = false) {
 
     if (loading) return;
 
@@ -37,6 +37,12 @@ async function searchFrames() {
     loader.style.display = "block";
 
     try {
+
+        if (reset) {
+            document.getElementById("resultsContainer").innerHTML = "";
+            cursor = null;
+            reachedEnd = false;
+        }
 
         const request = buildSearchRequest();
 
@@ -124,13 +130,13 @@ function renderFrames(frames) {
 
         card.className = "frame-card";
 
-        card.innerHTML = `<img loading="lazy" src="/Frames/${f.framePath}"/>
+        card.innerHTML = `<img loading="lazy" src="/FramesOutput/${f.framePath}"/>
 
         <div class="frame-meta">
 
         <div>${f.label}</div>
 
-        <div>${new Date(f.timestamp).toLocaleString()}</div>
+        <div>${new Date(f.detectionTime).toLocaleString()}</div>
 
         </div>
 
