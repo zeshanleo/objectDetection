@@ -12,8 +12,6 @@
 
 </div>
 
-@* <div id="panelBackdrop" class="panel-backdrop hidden" onclick="closePanel()"></div>
- *@
 <div id="detailPanel" class="detail-panel hidden">
     <div class="panel-header">
         <div class="panel-title"> Frame Details</div>
@@ -21,16 +19,43 @@
     </div>
 
     <div class="panel-body">
-        <img id="detailImage" class="detail-image"/>
+        <div class="panel-content">
+            <div class="top-tabs">
+                <div class="tab active" onclick="switchTab('imageTab', this)">
+                Image
+                </div>
+                <div class="tab" onclick="switchTab('videoTab', this)">
+                Video
+                </div>
+            </div>
+        </div>
 
-        <video id="videoPlayer" class="video-player" controls>
-        </video>
+        <div class="tab-content">
+            <!-- IMAGE TAB -->
+            <div id="imageTab" class="tab-pane active">
 
-        <div class="details">
-            <div><strong>Label:</strong> <span id="dLabel"></span></div>
-            <div><strong>Confidence:</strong> <span id="dConfidence"></span></div>
-            <div><strong>Time:</strong> <span id="dTime"></span></div>
-            <div><strong>Video:</strong> <span id="dVideo"></span></div>
+                <div class="image-container">
+                    <img id="detailImage" class="detail-image zoomable" />
+                </div>
+
+                <div class="details">
+                    <div><strong>Label:</strong> <span id="dLabel"></span></div>
+                    <div><strong>Confidence:</strong> <span id="dConfidence"></span></div>
+                    <div><strong>Time:</strong> <span id="dTime"></span></div>
+                    <div><strong>Video:</strong> <span id="dVideo"></span></div>
+                </div>
+
+            </div>
+            <!-- VIDEO TAB -->
+            <div id="videoTab" class="tab-pane">
+
+                <video id="videoPlayer" controls preload="metadata" class="video-player"></video>
+                <div id="timelineWrapper">
+
+                    <div id="timelineBar"></div>
+
+                </div>
+            </div>
         </div>
     </div>
 

@@ -158,12 +158,12 @@ function renderFrames(frames) {
 function openDetailPanel(index) {
     currentIndex = index;
     const frame = allFrames[index];
+
+    resetImageView();
+
     const panel = document.getElementById("detailPanel");
     panel.classList.remove("hidden");
     
-    //const backdrop = document.getElementById("panelBackdrop");
-    //backdrop.classList.remove("hidden");
-
     document.getElementById("detailImage").src = `/FramesOutput/${frame.framePath}`;
 
     document.getElementById("dLabel").innerText = frame.label || "-";
@@ -173,7 +173,11 @@ function openDetailPanel(index) {
 
     const video = document.getElementById("videoPlayer");
 
-    if (video.src.indexOf(frame.videoFile) === -1) {
+    //if (video.src.indexOf(frame.videoFile) === -1) {
+    //    video.src = `/videos/${frame.videoFile}`;
+    //}
+
+    if (!video.src.includes(frame.videoFile)) {
         video.src = `/videos/${frame.videoFile}`;
     }
 
@@ -181,6 +185,7 @@ function openDetailPanel(index) {
 
     updateNavButtons();
     highlightActiveCard(index);
+    buildTimeline(frame);
 }
 
 function updateNavButtons() {
@@ -214,5 +219,138 @@ function highlightActiveCard(index) {
 
 function closePanel() {
     document.getElementById("detailPanel").classList.add("hidden");
-    //document.getElementById("panelBackdrop").classList.add("hidden");
+}
+
+function switchTab(tabId, el) {
+
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+
+    el.classList.add("active");
+    document.getElementById(tabId).classList.add("active");
+}
+
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains("zoomable")) {
+        e.target.classList.toggle("zoomed");
+    }
+
+});
+
+let scale = 1;
+
+const img = document.getElementById("detailImage");
+
+img.addEventListener("wheel", function (e) {
+    e.preventDefault();
+
+    if (e.deltaY < 0) scale += 0.1;
+    else scale -= 0.1;
+
+    scale = Math.max(1, Math.min(scale, 3));
+
+    img.style.transform = `scale(${scale})`;
+});     
+
+let isDragging = false;
+let startX, startY, posX = 0, posY = 0;
+
+img.addEventListener("mousedown", (e) => {
+    if (scale <= 1) return;
+
+    isDragging = true;
+    startX = e.clientX - posX;
+    startY = e.clientY - posY;
+
+    img.style.cursor = "grabbing";
+});
+
+document.addEventListener("mouseup", () => {
+    isDragging = false;
+    img.style.cursor = "grab";
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    posX = e.clientX - startX;
+    posY = e.clientY - startY;
+
+    img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+});
+
+function resetImageView() {
+
+    scale = 1;
+    posX = 0;
+    posY = 0;
+
+    const img = document.getElementById("detailImage");
+
+    img.style.transform = "translate(0px, 0px) scale(1)";
+}
+
+function buildTimeline(currentFrame) {
+
+    const timeline = document.getElementById("timelineBar");
+    timeline.innerHTML = "";
+
+    const videoFrames = allFrames.filter(f =>
+        f.videoFile === currentFrame.videoFile
+    );
+
+    if (videoFrames.length === 0) return;
+
+    // Normalize time range
+    const times = videoFrames.map(f => new Date(f.detectionTime).getTime());
+
+    const minTime = Math.min(...times);
+    const maxTime = Math.max(...times);
+
+    videoFrames.forEach(f => {
+
+        const t = new Date(f.detectionTime).getTime();
+
+        const percent = (t - minTime) / (maxTime - minTime);
+        const marker = document.createElement("div");
+        marker.className = "timeline-marker";
+
+        marker.style.left = (percent * 100) + "%";
+
+        marker.onclick = () => jumpToFrame(f, minTime, maxTime);
+
+        // 👉 visible label
+        const label = document.createElement("div");
+        label.className = "marker-label";
+        label.innerText = f.label || "obj";
+
+        // 👉 visible time
+        const time = document.createElement("div");
+        time.className = "marker-time";
+
+        const dt = new Date(f.detectionTime);
+        time.innerText = dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        marker.appendChild(label);
+        marker.appendChild(time);
+
+        timeline.appendChild(marker);
+    });
+}
+
+function jumpToFrame(frame, minTime, maxTime) {
+
+    const video = document.getElementById("videoPlayer");
+
+    const t = new Date(frame.detectionTime).getTime();
+
+    const percent = (t - minTime) / (maxTime - minTime);
+
+    const duration = video.duration || 60; // fallback
+
+    const targetTime = percent * duration;
+
+    video.currentTime = targetTime;
+    video.play();
 }
